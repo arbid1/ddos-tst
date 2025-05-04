@@ -1,0 +1,35 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>مراقبة الطلبات والهجمات</title>
+    <style>
+        body { font-family: Tahoma; background-color: #111; color: #0f0; text-align: center; padding: 50px; }
+        h1 { font-size: 2em; }
+        .box { border: 2px solid #0f0; margin: 20px auto; padding: 20px; width: 300px; }
+    </style>
+</head>
+<body>
+    <h1>لوحة مراقبة الهجمات</h1>
+    <div class="box">
+        <p>عدد الطلبات: <span id="requests">0</span></p>
+        <p>تم الصد: <span id="blocked">0</span></p>
+        <p>مرور: <span id="allowed">0</span></p>
+        <p>القوة الحالية: <span id="power">0</span> r/s</p>
+    </div>
+
+    <script>
+        setInterval(() => {
+            fetch('/status')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('requests').innerText = data.total;
+                    document.getElementById('blocked').innerText = data.blocked;
+                    document.getElementById('allowed').innerText = data.allowed;
+                    document.getElementById('power').innerText = data.rate;
+                });
+        }, 1000);
+    </script>
+</body>
+</html>
